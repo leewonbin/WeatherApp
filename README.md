@@ -19,22 +19,33 @@
 
 # 5. Technology Stack (기술 스택)
 ## 5.1 Language
-[![My Skills](https://skillicons.dev/icons?i=java,spring)](https://skillicons.dev)
+- java
+- spring
 
 <br/>
 
 ## 5.2 Frotend
 [![My Skills](https://skillicons.dev/icons?i=html,css,js,jquery,ajax)](https://skillicons.dev)
+- html
+- css
+- js
+- jquery
+- ajax
 
 <br/>
 
 ## 5.3 Backend
 [![My Skills](https://skillicons.dev/icons?i=jsp,mybatis)](https://skillicons.dev)
+- mybatis
 
 <br/>
 
-## 5.4 Cooperation
-[![My Skills](https://skillicons.dev/icons?i=git)](https://skillicons.dev)
+## 5.4 Tools,Api
+- STS, OpenWeatherAPI, GeoLocationAPI
+
+<br/>
+## 5.4 DB
+- Oracle
 
 <br/>
 <br/>

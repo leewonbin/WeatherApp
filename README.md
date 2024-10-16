@@ -5,6 +5,11 @@
 <br/>
 <br/>
 
+# DataBase
+![image](https://github.com/user-attachments/assets/789ba817-8b72-47a8-82d5-7463b8315ee1)
+<br/>
+<br/>
+
 # Key Features (주요 기능)
 - **날씨 정보 조회**:
   - 도시명을 입력하면 해당 도시의 날씨 데이터를 가져옵니다.

@@ -28,7 +28,7 @@ function getWeather() {
                 
                 // 도시 추가 버튼 클릭 이벤트
                 $('.add_city_button').on('click', function() {
-                    $('#popup').show(); // 도시 추가 팝업 표시
+                    addBtn();
                 });
             } else {
                 // 날씨 데이터가 있을 경우 각 날씨 데이터를 반복합니다.
@@ -87,45 +87,66 @@ function weatherLoad(weather) {
      // 생성한 요소를 날씨 컨테이너에 추가합니다.
      $('.weather_list').append(weatherElement);
 }
-
-$('.add').on('click', function() {
-    var addCity = $('.addInput').val(); // 입력된 도시명을 가져옴
-    
-    // 도시 이름이 비어 있는 경우 경고
-    if (!addCity) {
-        alert("도시 이름을 입력해 주세요.");
-        return;
-    }
-	 $.ajax({
-	        url: "/ex/rest/weatherAdd",
-	        type: "GET",
-	        data : {
-	        	city : addCity
-	        },
-	        success: function(response) {
-	            console.log("Success: ", response);
-	            alert('도시 추가가 완료되었습니다 !!');
-	            $('#popup').hide();
-	            getWeather();
-	        },
-	        error: function(xhr, status, error) {
-	            console.log("Error: ", error);
-	            $('.popupInfo').text("도시 명을 다시 입력해주세요.");
-	            $('.popupInfo').css("color","red");
-	            $('.addInput').val("");
-	        }
-	    });
+function add (addCity) {
+	console.log(addCity == null);
+	// 도시 이름이 비어 있는 경우 경고
+	if (!addCity) {
+		Swal.fire({
+			icon: 'warning',
+			title: 'warning',
+			text: '도시명을 적어주세요',
+		});
+		return;
+	}
+	$.ajax({
+		url: "/ex/rest/weatherAdd",
+		type: "GET",
+		data : {
+			city : addCity
+		},
+		success: function(response) {
+			Swal.fire({
+				icon: 'success',
+				title: 'success',
+				text: '도시 추가가 완료되었습니다.',
+			});
+			getWeather();
+		},
+		error: function(xhr, status, error) {
+			Swal.fire({
+				icon: 'error',
+				title: 'error',
+				text: '도시명을 다시 적어주세요',
+			});
+		}
+	});
+}
 	
-})
 $('.plus').on('click', function() {
-    $('#popup').show(); // 팝업 보여주기
+	addBtn();
 });
+
+function addBtn() {
+	 (async () => {
+	        const { value: getName } = await Swal.fire({
+	            title: '도시 추가',
+	            text: '추가할 도시를 입력해주세요',
+	            input: 'text',
+	            inputPlaceholder: '도시를 영어로 입력해주세요. (ex : 서울 -> Seoul)'
+	        })
+
+	        // 이후 처리되는 내용.
+	        if (getName) {
+	        	add(getName);
+	        }
+	    })()
+}
 
 $('.close').on('click', function() {
     $('#popup').hide(); // 팝업 숨기기
 });
 
-//weather_element를 클릭하면 confirm 창 띄우기
+// weather_element를 클릭하면 confirm 창 띄우기
 $(document).on('click', '.weather_element', function() {
     let weatherElement = $(this); // 클릭된 요소 참조
     
@@ -134,26 +155,45 @@ $(document).on('click', '.weather_element', function() {
     let wid = weatherElement.find('.wid').val(); 
 
     // confirm 창 띄우기
-    if (confirm("정말 " + city + "을(를) 삭제하시겠습니까?")) {
-        // "예"를 누르면 Ajax 요청을 보냄
-        $.ajax({
-            url: "/ex/rest/weatherDelete",  // 서버로 보낼 URL
-            type: "POST",                   // 요청 메서드는 POST
-            data: {
-                wid: wid                  // 도시 이름을 데이터로 전송
-            },
-            success: function(response) {
-                // 서버 응답이 성공적이면 해당 요소 삭제
-            	getWeather();
-                alert(city + '이(가) 삭제되었습니다.');
-            },
-            error: function(xhr, status, error) {
-                // 에러 처리
-                console.log("Error: ", error);
-                alert('삭제 중 문제가 발생했습니다.');
-            }
-        });
-    }
+    Swal.fire({
+        title: city + ' 삭제',
+        text: "정말 " + city + "을(를) 삭제하시겠습니까?",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: '삭제',
+        cancelButtonText: '취소',
+        
+      }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: "/ex/rest/weatherDelete",  // 서버로 보낼 URL
+                type: "POST",                   // 요청 메서드는 POST
+                data: {
+                    wid: wid                  // 도시 이름을 데이터로 전송
+                },
+                success: function(response) {
+                    // 서버 응답이 성공적이면 해당 요소 삭제
+                	getWeather();
+                	 Swal.fire({
+                         icon: 'success',
+                         title: '완료',
+                         text: city+'이(가) 삭제되었습니다.',
+                       });
+                },
+                error: function(xhr, status, error) {
+                    // 에러 처리
+                    console.log("Error: ", error);
+               	 Swal.fire({
+                     icon: 'error',
+                     title: '실패',
+                     text: city+'이(가) 삭제 실패했습니다.',
+                   });
+                }
+            });
+        }
+      })
 });
 
 

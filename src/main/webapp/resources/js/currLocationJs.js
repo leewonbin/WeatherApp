@@ -1,10 +1,23 @@
 $('.gps').on('click', function() {
-    // Check if Geolocation is supported
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition, showError);
-    } else {
-        alert("Geolocation is not supported by this browser.");
-    }
+    Swal.fire({
+        title: '도시 추가',
+        text: "현재 위치의 날씨를 추가하시겠습니까 ?",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '추가',
+        cancelButtonText: '취소',
+        
+      }).then((result) => {
+        if (result.isConfirmed) {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+      })
 });
 
 function showPosition(position) {
@@ -18,8 +31,11 @@ function showPosition(position) {
 	        	lon : longitude
 	        },
 	        success: function(response) {
-	            console.log("Success: ", response);
-	            alert('도시 추가가 완료되었습니다 !!');
+              	 Swal.fire({
+                     icon: 'success',
+                     title: '성공',
+                     text: '현재 위치 날씨가 추가되었습니다.',
+                   });
 	            $('#popup').hide();
 	            getWeather();
 	        },

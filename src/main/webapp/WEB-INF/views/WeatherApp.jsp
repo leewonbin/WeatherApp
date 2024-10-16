@@ -10,6 +10,8 @@
 	href="${pageContext.request.contextPath}/resources/css/styles.css" />
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
 </head>
 <body>
 	<script>
@@ -23,17 +25,6 @@
 			
 		</div>
 
-		<div id="popup" class="popup" style="display: none;">
-			<div class="popup_content">
-				<h2>도시 추가</h2>
-				<p class="popupInfo"></p>
-				<input type="text" placeholder="도시를 영어로 입력해주세요. (ex : 서울 -> Seoul)" class="addInput"/>
-				<div class="button_group">
-					<button class="add">추가</button>
-					<button class="close">취소</button>
-				</div>
-			</div>
-		</div>
 	</div>
 	<div class="gps-container">
 		<img class="gps"

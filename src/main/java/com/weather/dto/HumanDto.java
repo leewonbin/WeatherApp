@@ -1,4 +1,4 @@
-package com.human.dto;
+package com.weather.dto;
 
 public class HumanDto {
 	private int id;

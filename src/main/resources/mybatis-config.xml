@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
-		<package name="com.human.dto"/>
+		<package name="com.weather.dto"/>
 	</typeAliases>
 </configuration>
 

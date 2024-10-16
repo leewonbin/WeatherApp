@@ -1,6 +1,7 @@
-package com.human.controller;
+package com.weather.controller;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,50 +13,52 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import com.human.dto.HumanDto;
-import com.human.dto.WeatherDto;
-import com.human.service.HumanService;
-import com.human.service.WeatherService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.weather.dto.WeatherDto;
+import com.weather.service.WeatherService;
 
 @RestController
 @RequestMapping("/rest")
-public class RestHumanController {
-
-	@Autowired
-	private HumanService service;
+public class RestWeatherController {
 
 	@Autowired
 	private WeatherService w_service;
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ArrayList<HumanDto> home() throws Exception {
-		return service.selectAll();
-	}
-
 	@RequestMapping(value = "/weatherSetting", method = RequestMethod.GET)
 	public ResponseEntity<?> weatherSet() throws Exception {
-		ArrayList<WeatherDto> list = w_service.listAll();
-		String apiKey = "f3076caed1b231dae89cb49a3844b2a2";
-		String urlFormat = "https://api.openweathermap.org/data/2.5/weather?q=%s&appid=" + apiKey;
-		RestTemplate restTemplate = new RestTemplate();
+	    ArrayList<WeatherDto> list = w_service.listAll();
+	    String apiKey = "f3076caed1b231dae89cb49a3844b2a2";
+	    String urlFormat = "https://api.openweathermap.org/data/2.5/weather?q=%s&appid=" + apiKey;
+	    RestTemplate restTemplate = new RestTemplate();
+	    
+	    // ObjectMapper를 사용하여 JSON 객체를 조작할 준비
+	    ObjectMapper objectMapper = new ObjectMapper();
 
-		ArrayList<Object> weatherData = new ArrayList<Object>();
+	    ArrayList<Object> weatherData = new ArrayList<Object>();
 
-		for (WeatherDto dto : list) {
-			String url = String.format(urlFormat, dto.getCity());
-			try {
-				// Make the API call
-				ResponseEntity<Object> response = restTemplate.getForEntity(url, Object.class);
-				if (response.getStatusCode() == HttpStatus.OK) {
-					weatherData.add(response.getBody());
-				}
-			} catch (Exception e) {
-				// Handle exceptions (e.g., log the error or add an error message)
-				weatherData.add("Error fetching data for " + dto.getCity() + ": " + e.getMessage());
-			}
-		}
-		return ResponseEntity.ok(weatherData);
+	    for (WeatherDto dto : list) {
+	        String url = String.format(urlFormat, dto.getCity());
+	        try {
+	            // Make the API call
+	            ResponseEntity<Object> response = restTemplate.getForEntity(url, Object.class);
+	            if (response.getStatusCode() == HttpStatus.OK) {
+	                // response.getBody()를 LinkedHashMap으로 변환하여 JSON 데이터로 다룸
+	                LinkedHashMap<String, Object> weatherInfo = objectMapper.convertValue(response.getBody(), LinkedHashMap.class);
+
+	                // w_id 추가
+	                weatherInfo.put("w_id", dto.getW_id());
+
+	                // weatherData에 추가
+	                weatherData.add(weatherInfo);
+	            }
+	        } catch (Exception e) {
+	            // 예외 처리 (예: 오류 메시지 추가)
+	            weatherData.add("Error fetching data for " + dto.getCity() + ": " + e.getMessage());
+	        }
+	    }
+	    return ResponseEntity.ok(weatherData);
 	}
+
 
 	@RequestMapping(value = "/weatherAdd", method = RequestMethod.GET)
 	public ResponseEntity<?> weatherAdd(@RequestParam String city) throws Exception {
@@ -92,6 +95,9 @@ public class RestHumanController {
 	    String apiKey = "f3076caed1b231dae89cb49a3844b2a2";
 	    String url = "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&appid=" + apiKey;
 	    
+	    System.out.println("lat : " + lat);
+	    System.out.println("lon : " + lon);
+	    
 	    // RestTemplate 인스턴스 생성
 	    RestTemplate restTemplate = new RestTemplate();
 	    
@@ -109,13 +115,13 @@ public class RestHumanController {
 	    }
 	}
 	@RequestMapping(value = "/weatherDelete", method = RequestMethod.POST)
-	public ResponseEntity<?> weatherDelete(@RequestParam String city) throws Exception {
+	public ResponseEntity<?> weatherDelete(@RequestParam int wid) throws Exception {
 	    try {
 	        // 도시 이름으로 날씨 정보를 삭제하는 서비스 호출
-	        w_service.delete(city);
+	        w_service.delete(wid);
 
 	        // 삭제 성공 시 응답
-	        return ResponseEntity.ok(city + "가(이) 성공적으로 삭제되었습니다.");
+	        return ResponseEntity.ok(wid + "가(이) 성공적으로 삭제되었습니다.");
 	    } catch (Exception e) {
 	        // 삭제 중 예외 발생 시 오류 메시지와 함께 500 상태 코드 반환
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

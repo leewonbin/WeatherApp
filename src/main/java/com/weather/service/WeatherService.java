@@ -1,14 +1,14 @@
-package com.human.service;
+package com.weather.service;
 
 import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.human.dto.WeatherDto;
+import com.weather.dto.WeatherDto;
 
 public interface WeatherService {
 	public ArrayList<WeatherDto> listAll() throws Exception;
 	public int insertCity(@Param("w_city")String w_city) throws Exception;
-	public int delete(@Param("city")String city) throws Exception;
+	public int delete(int wid) throws Exception;
 
 }

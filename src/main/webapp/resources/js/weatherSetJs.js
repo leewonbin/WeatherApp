@@ -49,11 +49,13 @@ function weatherLoad(weather) {
      const windSpeed = weather.wind.speed; // 바람 속도
      const humidity = weather.main.humidity; // 습도
      const cloudiness = weather.clouds.all; // 구름의 양
+     const w_id = weather.w_id;
      var imgURL = weather.weather[0].icon + ".png";
 
      // HTML 요소를 생성합니다.
      const weatherElement = `
          <div class="weather_element">
+         	<input type="hidden" value="${w_id}" class="wid"/>
              <div class="top_section">
                  <img src="${baseUrl}/resources/img/weatherIcon/${imgURL}" alt="날씨 아이콘" class="weather_icon" />
                  <div class="weather_info">
@@ -129,6 +131,7 @@ $(document).on('click', '.weather_element', function() {
     
     // 해당 요소에서 city (도시) 값을 추출
     let city = weatherElement.find('.city').text(); // .city 클래스에서 도시 정보 추출
+    let wid = weatherElement.find('.wid').val(); 
 
     // confirm 창 띄우기
     if (confirm("정말 " + city + "을(를) 삭제하시겠습니까?")) {
@@ -137,7 +140,7 @@ $(document).on('click', '.weather_element', function() {
             url: "/ex/rest/weatherDelete",  // 서버로 보낼 URL
             type: "POST",                   // 요청 메서드는 POST
             data: {
-                city: city                  // 도시 이름을 데이터로 전송
+                wid: wid                  // 도시 이름을 데이터로 전송
             },
             success: function(response) {
                 // 서버 응답이 성공적이면 해당 요소 삭제

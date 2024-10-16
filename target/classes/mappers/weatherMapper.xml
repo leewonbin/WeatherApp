@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.human.dao.WeatherDao">
+<mapper namespace="com.weather.dao.WeatherDao">
 	<insert id="insertCity">
 	insert into weather values(wid_num.nextval,#{w_city})
 	</insert>
@@ -13,7 +13,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<delete id="delete">
-		delete from weather where w_city=#{city}
+		delete from weather where w_id=#{wid}
 	</delete>
 
 </mapper>

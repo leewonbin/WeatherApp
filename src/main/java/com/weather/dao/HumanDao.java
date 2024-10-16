@@ -1,8 +1,8 @@
-package com.human.dao;
+package com.weather.dao;
 
 import java.util.ArrayList;
 
-import com.human.dto.HumanDto;
+import com.weather.dto.HumanDto;
 
 public interface HumanDao {
 	public ArrayList<HumanDto> selectAll() throws Exception;

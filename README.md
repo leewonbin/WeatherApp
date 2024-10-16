@@ -54,22 +54,22 @@
 
 # 수행 결과
 ## 메인페이지
-![image](https://github.com/user-attachments/assets/b638611f-ba32-4b32-b691-4c7507162b4b)
+![main](https://github.com/user-attachments/assets/375cff1b-ec11-48bb-a1ec-5f43acd7ff53)
 - 유저가 등록한 도시의 날씨 정보를 직관적으로 확인할 수 있도록 설계하였습니다. 이를 위해 현재 날씨를 나타내는 아이콘을 삽입하고, 유저가 가장 많이 확인하는 항목인 기온, 풍량, 습도, 강수확률을 포함하여 정보를 구성하였습니다.
 <br/>
 
 ## 도시 추가
-![image](https://github.com/user-attachments/assets/3e90f65d-9494-460f-a183-ae64a6501a9f)
+![city_add](https://github.com/user-attachments/assets/52f10e43-6110-453b-8a8e-42577c56265a)
 - 화면 좌측 상단의 + 버튼을 클릭하여 도시명을 입력하면, OpenWeatherAPI를 통해 해당 도시의 날씨 정보를 가져와 메인 화면에 표시됩니다.
 <br/>
 
 ## 도시 삭제
-![image](https://github.com/user-attachments/assets/471e7c32-94b6-42ad-bd12-cb3b88cbfe73)
+![city_del](https://github.com/user-attachments/assets/32ec2e61-06ba-436e-89e2-a705f38b2900)
 - 삭제하려는 도시의 정보를 선택하면 해당 도시가 간편하게 삭제됩니다. 유저의 편의성을 고려하여 동작을 최대한 간결하게 설계하였습니다.
 <br/>
 
 ## 현재 위치 날씨 조회
-![image](https://github.com/user-attachments/assets/6c54e0a7-8293-481e-bc2c-01e566d225ae)
+![city_curr](https://github.com/user-attachments/assets/a6f634ba-ebd6-4aa6-85fa-34335fa7ee0d)
 - 좌측 하단에 있는 GPS 아이콘을 클릭하면 GeoLocationAPI를 이용해 현재 위치의 위도와 경도 정보를 가져옵니다. 이를 바탕으로 OpenWeatherAPI를 사용하여 현재 위치의 날씨 정보를 실시간으로 조회할 수 있도록 구현하였습니다.
 <br/>
 

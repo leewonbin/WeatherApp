@@ -25,6 +25,19 @@ body {
 	margin-top: 20px;
 }
 
+.notCity {
+	margin-top : 100px;
+	color : white;
+	font-weight: bold;
+}
+
+.add_city_button {
+	margin-top : 50px;
+	width : 170px;	
+	background-color : unset;
+	border: 0.5px solid white;
+}
+
 .weather_element {
 	margin-top: 20px;
 	border: 1px solid #ccc; /* 경계선 */

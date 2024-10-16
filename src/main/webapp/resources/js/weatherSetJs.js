@@ -20,7 +20,7 @@ function getWeather() {
                 // 도시가 없을 때 보여줄 HTML을 추가
                 const noCityHTML = `
                     <div class="no_city_message">
-                        <p>등록된 도시가 없습니다.</p>
+                        <p class="notCity">등록된 도시가 없습니다.</p>
                         <button class="add_city_button">도시 추가하기</button>
                     </div>
                 `;
